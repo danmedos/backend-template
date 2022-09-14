@@ -11,14 +11,20 @@ import {
   UseGuards,
   SetMetadata,
 } from '@nestjs/common';
-import { RolesGuard } from '../roles.guard';
+import { RolesGuard } from '../../roles.guard';
 import { CatsService } from './cats.service';
 import { CreateCatDto, UpdateCatDto } from './dto';
+import { AppConfigService } from '../../config/app/config.service';
 
-@Controller('cats')
+@Controller({ path: 'cats', version: '1' })
 @UseGuards(RolesGuard)
 export class CatsController {
-  constructor(private catsService: CatsService) {}
+  constructor(
+    private catsService: CatsService,
+    private configService: AppConfigService,
+  ) {
+    console.log(this.configService.name);
+  }
 
   @Post()
   @Header('Cache-Control', 'none')
@@ -39,8 +45,7 @@ export class CatsController {
 
   @Put(':id')
   update(@Param('id') id: string, @Body() updateCatDto: UpdateCatDto) {
-    console.log(updateCatDto.name);
-    return `This action updates a #${id} cat`;
+    return `This action updates a #${updateCatDto.name} cat`;
   }
 
   @Delete(':id')

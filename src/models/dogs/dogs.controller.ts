@@ -1,5 +1,5 @@
 import { Controller, Get, SetMetadata, UseGuards } from '@nestjs/common';
-import { RolesGuard } from '../roles.guard';
+import { RolesGuard } from '../../roles.guard';
 import { CatsService } from '../cats/cats.service';
 
 @Controller('dogs')
